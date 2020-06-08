@@ -1,5 +1,5 @@
 # TestCafe Coffee Bean
-Coffee Bean is a simple template for DevExpress' TestCafe tool. There are 2 page objece models to choose from, one more simple than the other depending on the complexity of your project.
+Coffee Bean is a simple template for DevExpress' TestCafe tool. There are 2 page object models to choose from, one more simple than the other depending on the complexity of your project.
 
 # Getting Started
 ## Installation
