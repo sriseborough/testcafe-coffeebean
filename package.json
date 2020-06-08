@@ -1,0 +1,36 @@
+{
+  "name": "testcafe-coffeebean",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Scott Riseborough <scott.riseborough@gmail.com>",
+  "scripts": {
+    "lint": "eslint 'src/**/*.tsx'",
+    "prettier": "prettier 'src/**/*' --write",
+    "test": "testcafe chrome tests --hostname localhost -r html:./reports/testReport.html,spec",
+    "test:headless": "testcafe chrome:headless tests --hostname localhost -r html:./reports/testReport.html,spec",
+    "test:onlyLogin": "testcafe chrome tests --hostname localhost -s ./reports/screenshots -S -r html:./reports/testReport.html,spec --test-meta component=\"Login Page\"",
+    "test:ci": "testcafe chrome:headless tests --hostname localhost -s ./reports/screenshots -S -r junit:./reports/testReport.xml,html:./reports/testReport.html,spec --skip-js-errors --selector-timeout 30000 -c 2",
+    "checks": "run-s lint test"
+  },
+  "dependencies": {
+    "axe-core": "^3.4.1",
+    "axe-testcafe": "^3.0.0",
+    "docx-parser": "^0.2.1",
+    "faker": "^4.1.0",
+    "file-exists": "^5.0.1",
+    "testcafe": "^1.8.3",
+    "testcafe-reporter-html": "^1.4.6",
+    "testcafe-reporter-junit": "^3.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,css,md,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

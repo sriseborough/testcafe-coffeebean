@@ -1,0 +1,43 @@
+trigger:
+  - master
+
+pr:
+  - master
+
+variables:
+  COMPOSE_PROJECT_NAME: testcafe-coffeebean
+  DEFAULT_USER_PASSWORD: $(DEFAULT_USER_PASSWORD)
+
+stages:
+  - stage: Test
+    displayName: Test
+    jobs:
+      - job: system_test
+        displayName: "TestCafe tests"
+        pool:
+          vmImage: 'ubuntu-latest'
+        variables:
+          - group: testcafe-example-vg
+        
+        steps:
+          - script: |
+              npm install
+              npm run test:ci
+            displayName: "Run end to end tests against web scraper testing ground site"
+            env:
+              DEFAULT_USER_PASSWORD: $(DEFAULT_USER_PASSWORD)
+
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: "JUnit"
+              testResultsFiles: "./reports/testReport.xml"
+              testRunTitle: "e2e tests"
+              publishRunAttachments: true
+
+          - task: PublishPipelineArtifact@0
+            displayName: "Publish e2e test reports and screenshots"
+            inputs:
+              artifactName: "e2e test reports"
+              targetPath: ./reports
+            condition: always()
